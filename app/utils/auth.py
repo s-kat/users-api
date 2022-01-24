@@ -1,11 +1,15 @@
 from functools import wraps
+from os import environ
 
 from fastapi_login import LoginManager
 from fastapi_login.exceptions import InvalidCredentialsException
 
 from app.utils.user_utils import get_user
 
-manager = LoginManager("SECRET", token_url="/login", use_cookie=True, use_header=False)
+SECRET_KEY = environ.get("SECRET_KEY", "SECRET")
+manager = LoginManager(
+    SECRET_KEY, token_url="/login", use_cookie=True, use_header=False
+)
 
 
 def admin_required(fn):

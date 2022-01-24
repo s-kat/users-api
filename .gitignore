@@ -4,3 +4,4 @@ __pycache__/
 debug.log
 venv/
 .pytest_cache/
+postgres-data/

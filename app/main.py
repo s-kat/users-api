@@ -1,7 +1,9 @@
+from os import environ
+
 import uvicorn
 from fastapi import FastAPI
 from sqlalchemy import select
-from os import environ
+
 from app.models.database import database
 from app.models.users import users
 from app.routers import admin, login, pagintaion, user
@@ -12,6 +14,7 @@ from werkzeug.security import generate_password_hash
 
 ADMIN_USER = environ.get("ADMIN_USER", "admin@gmail.com")
 ADMIN_PASSWORD = environ.get("ADMIN_PASSWORD", "0000")
+
 
 @app.on_event("startup")
 async def startup():
