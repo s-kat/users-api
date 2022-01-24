@@ -1,6 +1,6 @@
 import json
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from fastapi.responses import RedirectResponse
 from fastapi_login.exceptions import InvalidCredentialsException
 from starlette.responses import Response

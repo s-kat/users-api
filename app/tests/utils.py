@@ -1,10 +1,6 @@
-import asyncio
-from re import U
-
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app.schemas.users import LoginModel, PrivateCreateUserModel
 
 
 def login_user(user_login_model):

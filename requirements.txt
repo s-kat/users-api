@@ -12,3 +12,6 @@ uvloop
 websockets
 psycopg2
 pytest
+fastapi_login
+fastapi_pagination
+werkzeug

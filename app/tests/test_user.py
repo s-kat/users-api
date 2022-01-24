@@ -1,12 +1,7 @@
-import asyncio
-from cgi import test
-from hashlib import new
-
-from fastapi import responses
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app.schemas.users import BaseInfo, PrivateChangeUserInfo
+from app.schemas.users import BaseInfo
 from app.tests.models import new_user_model
 from app.tests.utils import create_test_user, delete_test_user, login_user
 

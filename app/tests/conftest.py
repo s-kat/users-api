@@ -1,11 +1,15 @@
 import os
+from os import environ
 
 import pytest
 
 # Устанавливаем `os.environ`, чтобы использовать тестовую БД
 os.environ["TESTING"] = "True"
-
-import asyncio
+os.environ["DB_NAME"] = "test"
+DB_USER = environ.get("DB_USER", "postgres")
+DB_PASSWORD = environ.get("DB_PASSWORD", "postgres")
+DB_HOST = environ.get("DB_HOST", "localhost")
+DB_NAME = environ.get("DB_NAME", "postgres")
 
 from alembic import command
 from alembic.config import Config
@@ -13,23 +17,22 @@ from fastapi.testclient import TestClient
 from sqlalchemy_utils import create_database, drop_database
 
 from app.main import app
-from app.models import database
-from app.schemas.users import LoginModel, PrivateCreateUserModel
+from app.schemas.users import PrivateCreateUserModel
 from app.tests.utils import login_admin_user
 
 
 @pytest.fixture(scope="module")
 def temp_db():
-    create_database("postgresql://postgres:postgres@localhost:7100/test")
+    create_database(f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:5432/{DB_NAME}")
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     alembic_cfg = Config(os.path.join(base_dir, "alembic.ini"))
     command.upgrade(alembic_cfg, "head")
 
     try:
-        yield "postgresql://postgres:postgres@localhost:7100/test"
+        yield f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:5432/{DB_NAME}"
     finally:
         pass
-        drop_database("postgresql://postgres:postgres@localhost:7100/test")
+        drop_database(f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:5432/{DB_NAME}")
 
 
 @pytest.fixture(scope="function")

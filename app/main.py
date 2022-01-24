@@ -1,9 +1,7 @@
-from xml.dom import HierarchyRequestErr
-
 import uvicorn
 from fastapi import FastAPI
-from sqlalchemy import delete, select, update
-
+from sqlalchemy import select
+from os import environ
 from app.models.database import database
 from app.models.users import users
 from app.routers import admin, login, pagintaion, user
@@ -12,6 +10,8 @@ from app.schemas.users import PrivateCreateUserModel
 app = FastAPI()
 from werkzeug.security import generate_password_hash
 
+ADMIN_USER = environ.get("ADMIN_USER", "admin@gmail.com")
+ADMIN_PASSWORD = environ.get("ADMIN_PASSWORD", "0000")
 
 @app.on_event("startup")
 async def startup():
@@ -22,11 +22,11 @@ async def startup():
         first_name="admin",
         last_name="admin",
         other_name="admin",
-        email="admin@gmail.com",
+        email=ADMIN_USER,
         phone="132342341",
         birthday="01-01-2000",
         additional_info="",
-        password="0000",
+        password=ADMIN_PASSWORD,
         city=0,
         is_admin=True,
     )
