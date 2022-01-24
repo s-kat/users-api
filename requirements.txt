@@ -1,0 +1,14 @@
+alembic
+asyncpg
+databases
+email-validator
+fastapi
+requests
+SQLAlchemy
+SQLAlchemy-Utils
+urllib3
+uvicorn
+uvloop
+websockets
+psycopg2
+pytest

@@ -1,0 +1,31 @@
+version: "3.0"
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    environment:
+      DB_USER: postgres
+      DB_HOST: postgres
+      DB_PASSWORD: postgres
+    ports:
+      - "8000:8000"
+    restart: always
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - APP_DB_USER=postgres
+      - APP_DB_PASS=postgres
+      - APP_DB_NAME=postgres
+    ports:
+      - '7100:5432'
+    volumes: 
+      - ./postgres-data:/var/lib/postgresql/data
+  
