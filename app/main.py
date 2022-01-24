@@ -1,38 +1,43 @@
 from xml.dom import HierarchyRequestErr
+
 import uvicorn
-from sqlalchemy import delete, select, update
 from fastapi import FastAPI
-from app.models.users import users
+from sqlalchemy import delete, select, update
+
 from app.models.database import database
+from app.models.users import users
 from app.routers import admin, login, pagintaion, user
 from app.schemas.users import PrivateCreateUserModel
+
 app = FastAPI()
 from werkzeug.security import generate_password_hash
 
 
 @app.on_event("startup")
 async def startup():
-    print("AAAAA!!!!!!!!!!!$$$$$$$########", flush=True)
     await database.connect()
-    
+
     # init admin user
     user = PrivateCreateUserModel(
-        first_name='admin',
-        last_name='admin',
-        other_name='admin',
-        email='admin@gmail.com',
-        phone='132342341',
-        birthday='01-01-2000',
-        additional_info='',
-        password='0000',
+        first_name="admin",
+        last_name="admin",
+        other_name="admin",
+        email="admin@gmail.com",
+        phone="132342341",
+        birthday="01-01-2000",
+        additional_info="",
+        password="0000",
         city=0,
-        is_admin=True
+        is_admin=True,
     )
-    print("USER:", user, flush=True)
-    if await database.fetch_val(select(users.c.id).where(users.c.email == 'admin@gmail.com')) is None:
+    if (
+        await database.fetch_val(
+            select(users.c.id).where(users.c.email == "admin@gmail.com")
+        )
+        is None
+    ):
         hashed_password = generate_password_hash(user.password)
         user.dict().pop("password")
-        print("TYPE:", type(hashed_password), flush=True)
         query = users.insert().values(
             first_name=user.first_name,
             last_name=user.last_name,
@@ -46,7 +51,6 @@ async def startup():
             password=hashed_password,
         )
         await database.execute(query)
-    print("SUCCESS!!!", flush=True)
 
 
 @app.on_event("shutdown")

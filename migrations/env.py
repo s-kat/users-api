@@ -1,24 +1,13 @@
-import os
-import sys
 from logging.config import fileConfig
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-# add current path to PYTHONPATH, otherwise app module will not be found when alembic executing
-sys.path.append(os.getcwd())
-
-from app.models import database, users
+from app.models import users
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-
-section = config.config_ini_section
-config.set_section_option(section, "DB_USER", database.DB_USER)
-config.set_section_option(section, "DB_PASS", database.DB_PASSWORD)
-config.set_section_option(section, "DB_NAME", database.DB_NAME)
-config.set_section_option(section, "DB_HOST", database.DB_HOST)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -28,7 +17,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [users.metadata]
+target_metadata = users.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

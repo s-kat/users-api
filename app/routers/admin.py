@@ -7,6 +7,7 @@ from app.utils.user_utils import (change_user_info, create_user, delete_user,
 
 router = APIRouter()
 
+
 @router.get("/")
 async def health_check():
     return {"Hello": "World"}
@@ -45,10 +46,3 @@ async def private_change_user_info(
     pk: int, user_info: users.PrivateChangeUserInfo, user=Depends(manager)
 ):
     return await change_user_info(pk, user_info)
-
-
-"""
-@router.post("/create/users", response_model=users.PrivateUserModelInfo)
-async def private_create_user(user_info: users.PrivateCreateUserModel):
-    return await create_user(user_info)
-"""
