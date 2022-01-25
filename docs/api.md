@@ -41,7 +41,7 @@ Status code 401 - InvalidCredentialsException
 ---
 ### `GET /logout`
 
-При успешном выходе необходимо удаляет установленные Cookies
+При успешном выходе удаляет установленные Cookies
 
 Response:
 
@@ -220,9 +220,6 @@ Body:
 
 Reponse: Status code 200 Body:
 ```json
-	
-Response body
-Download
 {
   "items": [
     {
